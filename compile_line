@@ -1,0 +1,3 @@
+#!/bin/sh
+make DESTDIR=/opt/projects/bootlets ARCH=mx28 BOARD=cfa10036 CROSS_COMPILE=arm-none-linux-gnueabi- bareboxsb
+sudo ./gnet-imx28-usb-downloader -f cfa10036_ivt_barebox.sb

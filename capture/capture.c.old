@@ -1,0 +1,120 @@
+/*
+ * iMX28 Boot Prep
+ *
+ * Copyright 2008-2010 Freescale Semiconductor
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ */
+
+
+#include "regsclkctrl.h"
+#include "regsemi.h"
+#include "regsdram.h"
+#include "regspower.h"
+#include "regsuartdbg.h"
+#include "regspinctrl.h"
+#include "regsdigctl.h"
+#include "regsocotp.h"
+#include <stdarg.h>
+#include "memory.h"
+#include "timers.h"
+#include "duart.h"
+#include "leds.h"
+
+
+#define PIN_DRIVE_12mA     2
+#define EMI_PIN_DRIVE_20mA 2
+#define EMI_PIN_DRIVE_ADDRESS          EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_CONTROL          EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_DUALPAD          EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_DATA_SLICE_3     EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_DATA_SLICE_2     EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_DATA_SLICE_1     EMI_PIN_DRIVE_20mA
+#define EMI_PIN_DRIVE_DATA_SLICE_0     EMI_PIN_DRIVE_20mA
+
+
+
+
+
+
+#define BUFFER_SIZE 20
+
+void set_input_port(void) {
+        // set port0 pins 0-7 as GPI
+	HW_PINCTRL_MUXSEL0_SET(0x00FF);
+	HW_PINCTRL_MUXSEL1_SET(0x0003);
+	HW_PINCTRL_DOE0_CLR(0x0100FF);
+}
+
+
+int _start(int arg)
+{
+	int i;
+	unsigned int counter = 0;
+	unsigned int Start;
+	unsigned int Stop;
+	unsigned int Current;
+       
+	unsigned long *storage; 
+	int memsize = 0x8000000;
+
+        init_DUART();
+	init_PWRLED();
+	set_PWRLED(1);
+       // memsize = get_ram_size((long *)0x40000000, 0x10000000);
+	while(1) {
+	*storage = 0x40000000;
+
+
+      
+        // if we receive an S we will start a capture
+	printf("Press s to start capture\r\n"); 
+	while( 's' != getchar());
+	printf("Starting capture\r\n");
+        
+	// loop until we see another character
+	
+	while(HW_PINCTRL_DIN0.U & 0x10000) {
+                printf("%x\r\n",counter);
+        	Current = ((unsigned int)HW_PINCTRL_DIN0.U & 0xFF);
+       		Start = micros();
+        	while(Current == ((unsigned int)HW_PINCTRL_DIN0.U & 0xFF))
+		  if(!(HW_PINCTRL_DIN0.U & 0x10000)) goto stop;
+        	Stop = micros() - Start;
+		*storage++ = Stop;
+        	*storage++ = Current;
+        	counter++;
+		toggle_PWRLED();
+		if(counter*4 >= memsize) {
+	   		printf("out of memory!!\r\n");
+	   		break;
+		}
+	}
+stop:
+	printf("Capture Stopped\r\n");
+	if(counter*4 < memsize) {
+		*storage = 0x40000000;
+		printf("Dumping Records\r\n");
+		for(i = 0; i < counter; i++) {
+           		printf("%X\r\n",*storage++);
+		}
+	}
+}// while(1)
+	return 0;
+}
+
+/* kiss gcc's ass to make it happy */
+void __aeabi_unwind_cpp_pr0() {}
+void __aeabi_unwind_cpp_pr1() {}

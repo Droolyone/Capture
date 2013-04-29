@@ -1,0 +1,1785 @@
+build power_prep
+make -C power_prep ARCH=mx28 BOARD=cfa10036
+make[1]: Entering directory `/opt/projects/bootlets/power_prep'
+make -C ./../mach-mx28/hw
+make[2]: Entering directory `/opt/projects/bootlets/mach-mx28/hw'
+make -C power
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/hw/power'
+ar rs libhw_power.a src/hw_power.o src/hw_power_battery.o src/hw_power_init.o src/hw_power_interrupts.o src/hw_power_registers.o src/hw_power_conversions.o src/hw_power_fiq.o src/hw_power_5v_detect.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw/power'
+make -C lradc
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/hw/lradc'
+ar rs libhw_lradc.a src/hw_lradc.o src/hw_lradc_setup.o src/hw_lradc_init.o src/hw_lradc_ladder.o src/hw_lradc_touch_screen.o src/hw_lradc_temperature_sensor.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw/lradc'
+make -C icoll
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/hw/icoll'
+ar rs libhw_icoll.a src/hw_icoll_set.o src/hw_icoll_init.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw/icoll'
+make -C digctl
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/hw/digctl'
+ar rs libhw_digctl.a src/hw_digctl.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw/digctl'
+make -C core
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/hw/core'
+ar rs libhw_core.a src/hw_core_asm_interrupt.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw/core'
+ar rs libhw.a power/libhw_power.a lradc/libhw_lradc.a digctl/libhw_digctl.a icoll/libhw_icoll.a core/libhw_core.a
+make[2]: Leaving directory `/opt/projects/bootlets/mach-mx28/hw'
+make -C ./../mach-mx28/drivers
+make[2]: Entering directory `/opt/projects/bootlets/mach-mx28/drivers'
+make -C power
+make[3]: Entering directory `/opt/projects/bootlets/mach-mx28/drivers/power'
+ar rs libddi_power.a src/ddi_power_init.o  src/ddi_power.o src/ddi_power_handoff.o src/ddi_power_battery.o src/ddi_power_5v_detect.o
+make[3]: Leaving directory `/opt/projects/bootlets/mach-mx28/drivers/power'
+ar rs libddi.a power/libddi_power.a
+make[2]: Leaving directory `/opt/projects/bootlets/mach-mx28/drivers'
+arm-none-linux-gnueabi-gcc -c -Wall -I./../mach-mx28 -I./../mach-mx28/includes -I./ -O -DSTMP378x -Dmx28 -DMX28 -DBOARD_CFA10036 -o power_prep.o power_prep.c
+arm-none-linux-gnueabi-gcc -c -Wall -I./../mach-mx28 -I./../mach-mx28/includes -I./ -O -DSTMP378x -Dmx28 -DMX28 -DBOARD_CFA10036 -D__ASSEMBLY__ -o eabi.o eabi.S
+arm-none-linux-gnueabi-gcc -c -Wall -I./../mach-mx28 -I./../mach-mx28/includes -I./ -O -DSTMP378x -Dmx28 -DMX28 -DBOARD_CFA10036 -o debug.o debug.c
+arm-none-linux-gnueabi-ld -o power_prep power_prep.o eabi.o ./../mach-mx28/drivers/power/libddi_power.a ./../mach-mx28/hw/power/libhw_power.a ./../mach-mx28/hw/lradc/libhw_lradc.a ./../mach-mx28/hw/icoll/libhw_icoll.a ./../mach-mx28/hw/digctl/libhw_digctl.a ./../mach-mx28/hw/core/libhw_core.a \
+	-static -gc-sections -nostdlib -T ./link.lds debug.o
+make[1]: Leaving directory `/opt/projects/bootlets/power_prep'
+build boot_prep
+make -C boot_prep  ARCH=mx28 BOARD=cfa10036
+make[1]: Entering directory `/opt/projects/bootlets/boot_prep'
+arm-none-linux-gnueabi-gcc -c -g -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o init-mx28.o init-mx28.c
+arm-none-linux-gnueabi-gcc -c -g -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o debug.o debug.c
+arm-none-linux-gnueabi-ld -o boot_prep init-mx28.o debug.o -static -nostdlib -T ./link.lds
+make[1]: Leaving directory `/opt/projects/bootlets/boot_prep'
+build capture
+make  -C capture  ARCH=mx28 BOARD=cfa10036
+make[1]: Entering directory `/opt/projects/bootlets/capture'
+arm-none-linux-gnueabi-gcc -c -c -g -Wa,-a,-ad -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O0 -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o capture.o capture.c
+ARM GAS   			page 1
+
+
+   1              	 .arch armv5te
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,2
+   9              	 .eabi_attribute 30,6
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .file "capture.c"
+  13              	 .text
+  14              	.Ltext0:
+  15              	 .cfi_sections .debug_frame
+  16              	 .align 2
+  17              	 .global set_input_port
+  19              	set_input_port:
+  20              	.LFB0:
+  21              	 .file 1 "capture.c"
+   1:capture.c     **** #include "regsclkctrl.h"
+   2:capture.c     **** #include "regsemi.h"
+   3:capture.c     **** #include "regsdram.h"
+   4:capture.c     **** #include "regspower.h"
+   5:capture.c     **** #include "regsuartdbg.h"
+   6:capture.c     **** #include "regspinctrl.h"
+   7:capture.c     **** #include "regsdigctl.h"
+   8:capture.c     **** #include "regsocotp.h"
+   9:capture.c     **** #include <stdarg.h>
+  10:capture.c     **** #include "memory.h"
+  11:capture.c     **** #include "timers.h"
+  12:capture.c     **** #include "duart.h"
+  13:capture.c     **** #include "leds.h"
+  14:capture.c     **** 
+  15:capture.c     **** 
+  16:capture.c     **** void set_input_port(void) {
+  22              	 .loc 1 16 0
+  23              	 .cfi_startproc
+  24              	 
+  25              	 
+  26              	 
+  27 0000 04B02DE5 	 str fp,[sp,#-4]!
+  28              	.LCFI0:
+  29              	 .cfi_def_cfa_offset 4
+  30              	 .cfi_offset 11,-4
+  31 0004 00B08DE2 	 add fp,sp,#0
+  32              	.LCFI1:
+  33              	 .cfi_def_cfa_register 11
+  17:capture.c     ****         // set port0 pins 0-7 as GPI
+  18:capture.c     **** 	HW_PINCTRL_MUXSEL0_SET(0x00FF);
+  34              	 .loc 1 18 0
+  35 0008 28309FE5 	 ldr r3,.L2
+  36 000c FF20A0E3 	 mov r2,#255
+  37 0010 002083E5 	 str r2,[r3,#0]
+  19:capture.c     **** 	HW_PINCTRL_MUXSEL1_SET(0x0003);
+  38              	 .loc 1 19 0
+  39 0014 20309FE5 	 ldr r3,.L2+4
+ARM GAS   			page 2
+
+
+  40 0018 0320A0E3 	 mov r2,#3
+  41 001c 002083E5 	 str r2,[r3,#0]
+  20:capture.c     **** 	HW_PINCTRL_DOE0_CLR(0x0100FF);
+  42              	 .loc 1 20 0
+  43 0020 18309FE5 	 ldr r3,.L2+8
+  44 0024 18209FE5 	 ldr r2,.L2+12
+  45 0028 002083E5 	 str r2,[r3,#0]
+  21:capture.c     **** }
+  46              	 .loc 1 21 0
+  47 002c 00D08BE2 	 add sp,fp,#0
+  48 0030 04B09DE4 	 ldmfd sp!,{fp}
+  49 0034 1EFF2FE1 	 bx lr
+  50              	.L3:
+  51              	 .align 2
+  52              	.L2:
+  53 0038 04810180 	 .word -2147385084
+  54 003c 14810180 	 .word -2147385068
+  55 0040 088B0180 	 .word -2147382520
+  56 0044 FF000100 	 .word 65791
+  57              	 .cfi_endproc
+  58              	.LFE0:
+  60              	 .section .rodata
+  61              	 .align 2
+  62              	.LC0:
+  63 0000 50726573 	 .ascii "Press s to start capture\015\012\000"
+  63      73207320 
+  63      746F2073 
+  63      74617274 
+  63      20636170 
+  64 001b 00       	 .align 2
+  65              	.LC1:
+  66 001c 53746172 	 .ascii "Starting capture\015\012\000"
+  66      74696E67 
+  66      20636170 
+  66      74757265 
+  66      0D0A00
+  67 002f 00       	 .align 2
+  68              	.LC2:
+  69 0030 25580D0A 	 .ascii "%X\015\012\000"
+  69      00
+  70 0035 000000   	 .text
+  71              	 .align 2
+  72              	 .global _start
+  74              	_start:
+  75              	.LFB1:
+  22:capture.c     **** 
+  23:capture.c     **** 
+  24:capture.c     **** int _start(int arg)
+  25:capture.c     **** {
+  76              	 .loc 1 25 0
+  77              	 .cfi_startproc
+  78              	 
+  79              	 
+  80 0048 00482DE9 	 stmfd sp!,{fp,lr}
+  81              	.LCFI2:
+  82              	 .cfi_def_cfa_offset 8
+  83              	 .cfi_offset 14,-4
+ARM GAS   			page 3
+
+
+  84              	 .cfi_offset 11,-8
+  85 004c 04B08DE2 	 add fp,sp,#4
+  86              	.LCFI3:
+  87              	 .cfi_def_cfa 11,4
+  88 0050 20D04DE2 	 sub sp,sp,#32
+  89 0054 20000BE5 	 str r0,[fp,#-32]
+  26:capture.c     **** 	unsigned int tmp;
+  27:capture.c     **** 	int i,k,l;
+  28:capture.c     **** 	unsigned int counter = 0;
+  90              	 .loc 1 28 0
+  91 0058 0030A0E3 	 mov r3,#0
+  92 005c 10300BE5 	 str r3,[fp,#-16]
+  29:capture.c     **** 	unsigned int Last_Port_Time;
+  30:capture.c     **** 	unsigned int This_Port_Time;
+  31:capture.c     **** 	unsigned int Last_Port;
+  32:capture.c     **** 	unsigned int This_Port;
+  33:capture.c     **** 	//volatile *storage; 
+  34:capture.c     **** 	unsigned int memsize = 0x8000000;
+  93              	 .loc 1 34 0
+  94 0060 0233A0E3 	 mov r3,#134217728
+  95 0064 14300BE5 	 str r3,[fp,#-20]
+  35:capture.c     **** unsigned int volatile * const storage = (unsigned int *) 0x40000000; 
+  96              	 .loc 1 35 0
+  97 0068 0131A0E3 	 mov r3,#1073741824
+  98 006c 18300BE5 	 str r3,[fp,#-24]
+  36:capture.c     **** unsigned int volatile * const tmr = (unsigned int *) 0x8001c0c0; 
+  99              	 .loc 1 36 0
+ 100 0070 C8309FE5 	 ldr r3,.L11
+ 101 0074 1C300BE5 	 str r3,[fp,#-28]
+  37:capture.c     **** 
+  38:capture.c     **** 
+  39:capture.c     ****         init_DUART();
+ 102              	 .loc 1 39 0
+ 103 0078 FEFFFFEB 	 bl init_DUART
+  40:capture.c     **** 	init_PWRLED();
+ 104              	 .loc 1 40 0
+ 105 007c FEFFFFEB 	 bl init_PWRLED
+  41:capture.c     **** 	PWRLED_ON();
+ 106              	 .loc 1 41 0
+ 107 0080 FEFFFFEB 	 bl PWRLED_ON
+  42:capture.c     ****        // memsize = get_ram_size((long *)0x40000000, 0x10000000);
+  43:capture.c     **** 	while(1) {
+  44:capture.c     **** 	//(volatile long unsigned int )storage = 0x40000000;
+  45:capture.c     **** 
+  46:capture.c     ****         // if we receive an S we will start a capture
+  47:capture.c     **** 	printf("Press s to start capture\r\n"); 
+ 108              	 .loc 1 47 0
+ 109 0084 B8009FE5 	 ldr r0,.L11+4
+ 110 0088 FEFFFFEB 	 bl printf
+  48:capture.c     **** 	while( 's' != getchar());
+ 111              	 .loc 1 48 0
+ 112 008c 0000A0E1 	 mov r0,r0
+ 113              	.L5:
+ 114              	 .loc 1 48 0 is_stmt 0 discriminator 1
+ 115 0090 FEFFFFEB 	 bl getchar
+ 116 0094 0030A0E1 	 mov r3,r0
+ 117 0098 730053E3 	 cmp r3,#115
+ARM GAS   			page 4
+
+
+ 118 009c FBFFFF1A 	 bne .L5
+  49:capture.c     **** 	printf("Starting capture\r\n");
+ 119              	 .loc 1 49 0 is_stmt 1
+ 120 00a0 A0009FE5 	 ldr r0,.L11+8
+ 121 00a4 FEFFFFEB 	 bl printf
+  50:capture.c     ****         
+  51:capture.c     **** 	// loop until we see another character
+  52:capture.c     **** 	//  volatile long unsigned int 
+  53:capture.c     **** for(i=0;i<1000;i++)
+ 122              	 .loc 1 53 0
+ 123 00a8 0030A0E3 	 mov r3,#0
+ 124 00ac 0C300BE5 	 str r3,[fp,#-12]
+ 125 00b0 0A0000EA 	 b .L6
+ 126              	.L7:
+  54:capture.c     ****   storage[i]=0xFA050000|i;
+ 127              	 .loc 1 54 0 discriminator 2
+ 128 00b4 0C301BE5 	 ldr r3,[fp,#-12]
+ 129 00b8 0331A0E1 	 mov r3,r3,asl#2
+ 130 00bc 18201BE5 	 ldr r2,[fp,#-24]
+ 131 00c0 032082E0 	 add r2,r2,r3
+ 132 00c4 0C301BE5 	 ldr r3,[fp,#-12]
+ 133 00c8 FA3483E3 	 orr r3,r3,#-100663296
+ 134 00cc 053883E3 	 orr r3,r3,#327680
+ 135 00d0 003082E5 	 str r3,[r2,#0]
+  53:capture.c     **** for(i=0;i<1000;i++)
+ 136              	 .loc 1 53 0 discriminator 2
+ 137 00d4 0C301BE5 	 ldr r3,[fp,#-12]
+ 138 00d8 013083E2 	 add r3,r3,#1
+ 139 00dc 0C300BE5 	 str r3,[fp,#-12]
+ 140              	.L6:
+  53:capture.c     **** for(i=0;i<1000;i++)
+ 141              	 .loc 1 53 0 is_stmt 0 discriminator 1
+ 142 00e0 0C201BE5 	 ldr r2,[fp,#-12]
+ 143 00e4 60309FE5 	 ldr r3,.L11+12
+ 144 00e8 030052E1 	 cmp r2,r3
+ 145 00ec F0FFFFDA 	 ble .L7
+  55:capture.c     **** 
+  56:capture.c     **** 
+  57:capture.c     **** for(i=900;i<1000;i++)
+ 146              	 .loc 1 57 0 is_stmt 1
+ 147 00f0 E13FA0E3 	 mov r3,#900
+ 148 00f4 0C300BE5 	 str r3,[fp,#-12]
+ 149 00f8 080000EA 	 b .L8
+ 150              	.L9:
+  58:capture.c     **** //  printf("s[%X]=%X\r\n",i,storage[i]);
+  59:capture.c     ****  tmp=storage[i];
+ 151              	 .loc 1 59 0 discriminator 2
+ 152 00fc 0C301BE5 	 ldr r3,[fp,#-12]
+ 153 0100 0331A0E1 	 mov r3,r3,asl#2
+ 154 0104 18201BE5 	 ldr r2,[fp,#-24]
+ 155 0108 033082E0 	 add r3,r2,r3
+ 156 010c 003093E5 	 ldr r3,[r3,#0]
+ 157 0110 08300BE5 	 str r3,[fp,#-8]
+  57:capture.c     **** for(i=900;i<1000;i++)
+ 158              	 .loc 1 57 0 discriminator 2
+ 159 0114 0C301BE5 	 ldr r3,[fp,#-12]
+ 160 0118 013083E2 	 add r3,r3,#1
+ARM GAS   			page 5
+
+
+ 161 011c 0C300BE5 	 str r3,[fp,#-12]
+ 162              	.L8:
+  57:capture.c     **** for(i=900;i<1000;i++)
+ 163              	 .loc 1 57 0 is_stmt 0 discriminator 1
+ 164 0120 0C201BE5 	 ldr r2,[fp,#-12]
+ 165 0124 20309FE5 	 ldr r3,.L11+12
+ 166 0128 030052E1 	 cmp r2,r3
+ 167 012c F2FFFFDA 	 ble .L9
+  60:capture.c     ****   printf("%X\r\n",tmp);
+ 168              	 .loc 1 60 0 is_stmt 1
+ 169 0130 18009FE5 	 ldr r0,.L11+16
+ 170 0134 08101BE5 	 ldr r1,[fp,#-8]
+ 171 0138 FEFFFFEB 	 bl printf
+ 172              	.L10:
+  61:capture.c     **** while(1);
+ 173              	 .loc 1 61 0 discriminator 1
+ 174 013c FEFFFFEA 	 b .L10
+ 175              	.L12:
+ 176              	 .align 2
+ 177              	.L11:
+ 178 0140 C0C00180 	 .word -2147368768
+ 179 0144 00000000 	 .word .LC0
+ 180 0148 1C000000 	 .word .LC1
+ 181 014c E7030000 	 .word 999
+ 182 0150 30000000 	 .word .LC2
+ 183              	 .cfi_endproc
+ 184              	.LFE1:
+ 186              	 .align 2
+ 187              	 .global __aeabi_unwind_cpp_pr0
+ 189              	__aeabi_unwind_cpp_pr0:
+ 190              	.LFB2:
+  62:capture.c     **** /*
+  63:capture.c     ****         //Seed our previous readings
+  64:capture.c     ****         Last_Port=((volatile unsigned int)HW_PINCTRL_DIN0.U & 0xFF);
+  65:capture.c     ****         Last_Port_Time = (volatile) *tmr;
+  66:capture.c     **** 
+  67:capture.c     **** 	while(!((volatile unsigned int)HW_PINCTRL_DIN0.U & 0x10000))
+  68:capture.c     ****           {
+  69:capture.c     ****           This_Port=((volatile unsigned int)HW_PINCTRL_DIN0.U & 0xFF);
+  70:capture.c     ****           This_Port_Time = (volatile) *tmr;
+  71:capture.c     ****  
+  72:capture.c     ****           toggle_PWRLED();
+  73:capture.c     **** 
+  74:capture.c     ****        	  if(!(This_Port==Last_Port))
+  75:capture.c     ****             {
+  76:capture.c     **** 	//printf("%x   %x\r\n",This_Port,Last_Port);
+  77:capture.c     ****             //Got a record
+  78:capture.c     ****             //Save the delta time
+  79:capture.c     ****  //           *storage++ = This_Port_Time-Last_Port_Time;
+  80:capture.c     **** 
+  81:capture.c     ****            // *storage++ = Last_Port_Time;
+  82:capture.c     **** 
+  83:capture.c     **** 
+  84:capture.c     **** printf(" this time %X %X\r\n",This_Port_Time,storage);
+  85:capture.c     **** 
+  86:capture.c     ****             //Save the port data
+  87:capture.c     ****            // *storage++ = Last_Port;
+ARM GAS   			page 6
+
+
+  88:capture.c     **** printf(" this time %X %X\r\n",This_Port_Time,storage);
+  89:capture.c     ****             //Update our previous readings
+  90:capture.c     ****             Last_Port=This_Port;
+  91:capture.c     ****             Last_Port_Time=This_Port_Time;
+  92:capture.c     ****             //Remember that we took a sample
+  93:capture.c     ****             counter++;
+  94:capture.c     ****             }
+  95:capture.c     ****          to.L13+8ggle_PWRLED();
+  96:capture.c     ****          if(counter*4 >= memsize)
+  97:capture.c     ****            {
+  98:capture.c     **** 	   printf("out of memory!!\r\n");
+  99:capture.c     **** 	   break;
+ 100:capture.c     ****            }
+ 101:capture.c     ****          }
+ 102:capture.c     **** 	printf("Capture Stopped\r\n");
+ 103:capture.c     **** 
+ 104:capture.c     ****         // if we receive an R we will start to report
+ 105:capture.c     **** 	printf("Press r to start reporting %X records.\r\n",counter); 
+ 106:capture.c     **** 	while( 'r' != getchar());
+ 107:capture.c     **** 	printf("Reporting Now\r\n");
+ 108:capture.c     **** 
+ 109:capture.c     **** //	storage = 0x40000000;
+ 110:capture.c     **** 	printf("Dumping Records\r\n");
+ 111:capture.c     **** //	for(i = 0; i < counter; i++) {
+ 112:capture.c     ****     //      printf("%X\r\n",*storage++);
+ 113:capture.c     **** 	
+ 114:capture.c     **** 	}
+ 115:capture.c     **** }
+ 116:capture.c     ****  while(1)
+ 117:capture.c     **** 
+ 118:capture.c     **** */
+ 119:capture.c     **** }
+ 120:capture.c     **** 	return 0;
+ 121:capture.c     **** }
+ 122:capture.c     **** 
+ 123:capture.c     **** /* kiss gcc's ass to make it happy */
+ 124:capture.c     **** void __aeabi_unwind_cpp_pr0() {}
+ 191              	 .loc 1 124 0
+ 192              	 .cfi_startproc
+ 193              	 
+ 194              	 
+ 195              	 
+ 196 0154 04B02DE5 	 str fp,[sp,#-4]!
+ 197              	.LCFI4:
+ 198              	 .cfi_def_cfa_offset 4
+ 199              	 .cfi_offset 11,-4
+ 200 0158 00B08DE2 	 add fp,sp,#0
+ 201              	.LCFI5:
+ 202              	 .cfi_def_cfa_register 11
+ 203              	 .loc 1 124 0
+ 204 015c 00D08BE2 	 add sp,fp,#0
+ 205 0160 04B09DE4 	 ldmfd sp!,{fp}
+ 206 0164 1EFF2FE1 	 bx lr
+ 207              	 .cfi_endproc
+ 208              	.LFE2:
+ 210              	 .align 2
+ 211              	 .global __aeabi_unwind_cpp_pr1
+ARM GAS   			page 7
+
+
+ 213              	__aeabi_unwind_cpp_pr1:
+ 214              	.LFB3:
+ 125:capture.c     **** void __aeabi_unwind_cpp_pr1() {}
+ 215              	 .loc 1 125 0
+ 216              	 .cfi_startproc
+ 217              	 
+ 218              	 
+ 219              	 
+ 220 0168 04B02DE5 	 str fp,[sp,#-4]!
+ 221              	.LCFI6:
+ 222              	 .cfi_def_cfa_offset 4
+ 223              	 .cfi_offset 11,-4
+ 224 016c 00B08DE2 	 add fp,sp,#0
+ 225              	.LCFI7:
+ 226              	 .cfi_def_cfa_register 11
+ 227              	 .loc 1 125 0
+ 228 0170 00D08BE2 	 add sp,fp,#0
+ 229 0174 04B09DE4 	 ldmfd sp!,{fp}
+ 230 0178 1EFF2FE1 	 bx lr
+ 231              	 .cfi_endproc
+ 232              	.LFE3:
+ 234              	.Letext0:
+ 235              	 .file 2 "./../mach-mx28/includes/registers/regs.h"
+ARM GAS   			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 capture.c
+    {standard input}:16     .text:00000000 $a
+    {standard input}:19     .text:00000000 set_input_port
+    {standard input}:53     .text:00000038 $d
+    {standard input}:61     .rodata:00000000 $d
+    {standard input}:71     .text:00000048 $a
+    {standard input}:74     .text:00000048 _start
+    {standard input}:178    .text:00000140 $d
+    {standard input}:186    .text:00000154 $a
+    {standard input}:189    .text:00000154 __aeabi_unwind_cpp_pr0
+    {standard input}:213    .text:00000168 __aeabi_unwind_cpp_pr1
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+init_DUART
+init_PWRLED
+PWRLED_ON
+printf
+getchar
+arm-none-linux-gnueabi-gcc -c -c -g -Wa,-a,-ad -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O0 -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o duart.o duart.c
+ARM GAS   			page 1
+
+
+   1              	 .arch armv5te
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,2
+   9              	 .eabi_attribute 30,6
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .file "duart.c"
+  13              	 .text
+  14              	.Ltext0:
+  15              	 .cfi_sections .debug_frame
+  16              	 .align 2
+  17              	 .global init_DUART
+  19              	init_DUART:
+  20              	.LFB0:
+  21              	 .file 1 "duart.c"
+   1:duart.c       **** #include <stdarg.h>
+   2:duart.c       **** //#include "types.h"
+   3:duart.c       **** #include "regsuartdbg.h"
+   4:duart.c       **** #include "regspinctrl.h"
+   5:duart.c       **** 
+   6:duart.c       **** 
+   7:duart.c       **** #define DUARTRX_MUX (2<<4)
+   8:duart.c       **** #define DUARTTX_MUX (2<<6)
+   9:duart.c       **** #define DUARTRX_CLR (3<<4)
+  10:duart.c       **** #define DUARTTX_CLR (3<<6)
+  11:duart.c       **** 
+  12:duart.c       **** 
+  13:duart.c       **** void init_DUART(void) {
+  22              	 .loc 1 13 0
+  23              	 .cfi_startproc
+  24              	 
+  25              	 
+  26              	 
+  27 0000 04B02DE5 	 str fp,[sp,#-4]!
+  28              	.LCFI0:
+  29              	 .cfi_def_cfa_offset 4
+  30              	 .cfi_offset 11,-4
+  31 0004 00B08DE2 	 add fp,sp,#0
+  32              	.LCFI1:
+  33              	 .cfi_def_cfa_register 11
+  14:duart.c       **** 
+  15:duart.c       ****       /* Reroute DUART to GPOI3_2 and GPIO3_3         */
+  16:duart.c       ****       HW_PINCTRL_MUXSEL6_CLR(DUARTRX_CLR|DUARTTX_CLR);
+  34              	 .loc 1 16 0
+  35 0008 30309FE5 	 ldr r3,.L2
+  36 000c F020A0E3 	 mov r2,#240
+  37 0010 002083E5 	 str r2,[r3,#0]
+  17:duart.c       ****       HW_PINCTRL_MUXSEL6_SET(DUARTRX_MUX|DUARTTX_MUX);
+  38              	 .loc 1 17 0
+  39 0014 28309FE5 	 ldr r3,.L2+4
+  40 0018 A020A0E3 	 mov r2,#160
+  41 001c 002083E5 	 str r2,[r3,#0]
+ARM GAS   			page 2
+
+
+  18:duart.c       ****       /* set up the uart as bidirectional             */
+  19:duart.c       ****       HW_UARTDBGCR_SET(0x00000200);
+  42              	 .loc 1 19 0
+  43 0020 20309FE5 	 ldr r3,.L2+8
+  44 0024 1C209FE5 	 ldr r2,.L2+8
+  45 0028 002092E5 	 ldr r2,[r2,#0]
+  46 002c 022C82E3 	 orr r2,r2,#512
+  47 0030 002083E5 	 str r2,[r3,#0]
+  20:duart.c       **** }
+  48              	 .loc 1 20 0
+  49 0034 00D08BE2 	 add sp,fp,#0
+  50 0038 04B09DE4 	 ldmfd sp!,{fp}
+  51 003c 1EFF2FE1 	 bx lr
+  52              	.L3:
+  53              	 .align 2
+  54              	.L2:
+  55 0040 68810180 	 .word -2147384984
+  56 0044 64810180 	 .word -2147384988
+  57 0048 30400780 	 .word -2147008464
+  58              	 .cfi_endproc
+  59              	.LFE0:
+  61              	 .align 2
+  62              	 .global putc
+  64              	putc:
+  65              	.LFB1:
+  21:duart.c       **** void putc(char ch)
+  22:duart.c       **** {
+  66              	 .loc 1 22 0
+  67              	 .cfi_startproc
+  68              	 
+  69              	 
+  70              	 
+  71 004c 04B02DE5 	 str fp,[sp,#-4]!
+  72              	.LCFI2:
+  73              	 .cfi_def_cfa_offset 4
+  74              	 .cfi_offset 11,-4
+  75 0050 00B08DE2 	 add fp,sp,#0
+  76              	.LCFI3:
+  77              	 .cfi_def_cfa_register 11
+  78 0054 14D04DE2 	 sub sp,sp,#20
+  79 0058 0030A0E1 	 mov r3,r0
+  80 005c 0D304BE5 	 strb r3,[fp,#-13]
+  23:duart.c       **** 	int loop = 0;
+  81              	 .loc 1 23 0
+  82 0060 0030A0E3 	 mov r3,#0
+  83 0064 08300BE5 	 str r3,[fp,#-8]
+  24:duart.c       **** 	while (HW_UARTDBGFR_RD()&BM_UARTDBGFR_TXFF) {
+  84              	 .loc 1 24 0
+  85 0068 060000EA 	 b .L5
+  86              	.L7:
+  25:duart.c       **** 		loop++;
+  87              	 .loc 1 25 0
+  88 006c 08301BE5 	 ldr r3,[fp,#-8]
+  89 0070 013083E2 	 add r3,r3,#1
+  90 0074 08300BE5 	 str r3,[fp,#-8]
+  26:duart.c       **** 		if (loop > 10000)
+  91              	 .loc 1 26 0
+ARM GAS   			page 3
+
+
+  92 0078 08201BE5 	 ldr r2,[fp,#-8]
+  93 007c 4C309FE5 	 ldr r3,.L10
+  94 0080 030052E1 	 cmp r2,r3
+  95 0084 050000CA 	 bgt .L9
+  96              	.L5:
+  24:duart.c       **** 	while (HW_UARTDBGFR_RD()&BM_UARTDBGFR_TXFF) {
+  97              	 .loc 1 24 0 discriminator 1
+  98 0088 44309FE5 	 ldr r3,.L10+4
+  99 008c 003093E5 	 ldr r3,[r3,#0]
+ 100 0090 203003E2 	 and r3,r3,#32
+ 101 0094 000053E3 	 cmp r3,#0
+ 102 0098 F3FFFF1A 	 bne .L7
+ 103 009c 000000EA 	 b .L6
+ 104              	.L9:
+  27:duart.c       **** 			break;
+ 105              	 .loc 1 27 0
+ 106 00a0 0000A0E1 	 mov r0,r0
+ 107              	.L6:
+  28:duart.c       **** 	};
+  29:duart.c       **** 
+  30:duart.c       **** 	if(!(HW_UARTDBGFR_RD() &BM_UARTDBGFR_TXFF)) {
+ 108              	 .loc 1 30 0
+ 109 00a4 28309FE5 	 ldr r3,.L10+4
+ 110 00a8 003093E5 	 ldr r3,[r3,#0]
+ 111 00ac 203003E2 	 and r3,r3,#32
+ 112 00b0 000053E3 	 cmp r3,#0
+ 113 00b4 0200001A 	 bne .L4
+  31:duart.c       **** 	   HW_UARTDBGDR_WR(ch);
+ 114              	 .loc 1 31 0
+ 115 00b8 18309FE5 	 ldr r3,.L10+8
+ 116 00bc 0D205BE5 	 ldrb r2,[fp,#-13]
+ 117 00c0 002083E5 	 str r2,[r3,#0]
+ 118              	.L4:
+  32:duart.c       ****         }
+  33:duart.c       **** }
+ 119              	 .loc 1 33 0
+ 120 00c4 00D08BE2 	 add sp,fp,#0
+ 121 00c8 04B09DE4 	 ldmfd sp!,{fp}
+ 122 00cc 1EFF2FE1 	 bx lr
+ 123              	.L11:
+ 124              	 .align 2
+ 125              	.L10:
+ 126 00d0 10270000 	 .word 10000
+ 127 00d4 18400780 	 .word -2147008488
+ 128 00d8 00400780 	 .word -2147008512
+ 129              	 .cfi_endproc
+ 130              	.LFE1:
+ 132              	 .align 2
+ 133              	 .global printhex
+ 135              	printhex:
+ 136              	.LFB2:
+  34:duart.c       **** 
+  35:duart.c       **** void printhex(int data)
+  36:duart.c       **** {
+ 137              	 .loc 1 36 0
+ 138              	 .cfi_startproc
+ 139              	 
+ARM GAS   			page 4
+
+
+ 140              	 
+ 141 00dc 00482DE9 	 stmfd sp!,{fp,lr}
+ 142              	.LCFI4:
+ 143              	 .cfi_def_cfa_offset 8
+ 144              	 .cfi_offset 14,-4
+ 145              	 .cfi_offset 11,-8
+ 146 00e0 04B08DE2 	 add fp,sp,#4
+ 147              	.LCFI5:
+ 148              	 .cfi_def_cfa 11,4
+ 149 00e4 10D04DE2 	 sub sp,sp,#16
+ 150 00e8 10000BE5 	 str r0,[fp,#-16]
+  37:duart.c       **** 	int i = 0;
+ 151              	 .loc 1 37 0
+ 152 00ec 0030A0E3 	 mov r3,#0
+ 153 00f0 08300BE5 	 str r3,[fp,#-8]
+  38:duart.c       **** 	char c;
+  39:duart.c       **** 	for (i = sizeof(int)*2-1; i >= 0; i--) {
+ 154              	 .loc 1 39 0
+ 155 00f4 0730A0E3 	 mov r3,#7
+ 156 00f8 08300BE5 	 str r3,[fp,#-8]
+ 157 00fc 180000EA 	 b .L13
+ 158              	.L16:
+  40:duart.c       **** 		c = data>>(i*4);
+ 159              	 .loc 1 40 0
+ 160 0100 08301BE5 	 ldr r3,[fp,#-8]
+ 161 0104 0331A0E1 	 mov r3,r3,asl#2
+ 162 0108 10201BE5 	 ldr r2,[fp,#-16]
+ 163 010c 5233A0E1 	 mov r3,r2,asr r3
+ 164 0110 09304BE5 	 strb r3,[fp,#-9]
+  41:duart.c       **** 		c &= 0xf;
+ 165              	 .loc 1 41 0
+ 166 0114 09305BE5 	 ldrb r3,[fp,#-9]
+ 167 0118 0F3003E2 	 and r3,r3,#15
+ 168 011c 09304BE5 	 strb r3,[fp,#-9]
+  42:duart.c       **** 		if (c > 9)
+ 169              	 .loc 1 42 0
+ 170 0120 09305BE5 	 ldrb r3,[fp,#-9]
+ 171 0124 090053E3 	 cmp r3,#9
+ 172 0128 0500009A 	 bls .L14
+  43:duart.c       **** 			putc(c-10+'A');
+ 173              	 .loc 1 43 0
+ 174 012c 09305BE5 	 ldrb r3,[fp,#-9]
+ 175 0130 373083E2 	 add r3,r3,#55
+ 176 0134 FF3003E2 	 and r3,r3,#255
+ 177 0138 0300A0E1 	 mov r0,r3
+ 178 013c FEFFFFEB 	 bl putc
+ 179 0140 040000EA 	 b .L15
+ 180              	.L14:
+  44:duart.c       **** 		else
+  45:duart.c       **** 			putc(c+'0');
+ 181              	 .loc 1 45 0
+ 182 0144 09305BE5 	 ldrb r3,[fp,#-9]
+ 183 0148 303083E2 	 add r3,r3,#48
+ 184 014c FF3003E2 	 and r3,r3,#255
+ 185 0150 0300A0E1 	 mov r0,r3
+ 186 0154 FEFFFFEB 	 bl putc
+ 187              	.L15:
+ARM GAS   			page 5
+
+
+  39:duart.c       **** 	for (i = sizeof(int)*2-1; i >= 0; i--) {
+ 188              	 .loc 1 39 0
+ 189 0158 08301BE5 	 ldr r3,[fp,#-8]
+ 190 015c 013043E2 	 sub r3,r3,#1
+ 191 0160 08300BE5 	 str r3,[fp,#-8]
+ 192              	.L13:
+  39:duart.c       **** 	for (i = sizeof(int)*2-1; i >= 0; i--) {
+ 193              	 .loc 1 39 0 is_stmt 0 discriminator 1
+ 194 0164 08301BE5 	 ldr r3,[fp,#-8]
+ 195 0168 000053E3 	 cmp r3,#0
+ 196 016c E3FFFFAA 	 bge .L16
+  46:duart.c       **** 	}
+  47:duart.c       **** }
+ 197              	 .loc 1 47 0 is_stmt 1
+ 198 0170 04D04BE2 	 sub sp,fp,#4
+ 199 0174 0088BDE8 	 ldmfd sp!,{fp,pc}
+ 200              	 .cfi_endproc
+ 201              	.LFE2:
+ 203              	 .align 2
+ 204              	 .global printstr
+ 206              	printstr:
+ 207              	.LFB3:
+  48:duart.c       **** 
+  49:duart.c       **** 
+  50:duart.c       **** void printstr(char *str) {
+ 208              	 .loc 1 50 0
+ 209              	 .cfi_startproc
+ 210              	 
+ 211              	 
+ 212 0178 00482DE9 	 stmfd sp!,{fp,lr}
+ 213              	.LCFI6:
+ 214              	 .cfi_def_cfa_offset 8
+ 215              	 .cfi_offset 14,-4
+ 216              	 .cfi_offset 11,-8
+ 217 017c 04B08DE2 	 add fp,sp,#4
+ 218              	.LCFI7:
+ 219              	 .cfi_def_cfa 11,4
+ 220 0180 08D04DE2 	 sub sp,sp,#8
+ 221 0184 08000BE5 	 str r0,[fp,#-8]
+  51:duart.c       **** 
+  52:duart.c       ****      while(*str) {
+ 222              	 .loc 1 52 0
+ 223 0188 060000EA 	 b .L18
+ 224              	.L19:
+  53:duart.c       ****         putc(*str);
+ 225              	 .loc 1 53 0
+ 226 018c 08301BE5 	 ldr r3,[fp,#-8]
+ 227 0190 0030D3E5 	 ldrb r3,[r3,#0]
+ 228 0194 0300A0E1 	 mov r0,r3
+ 229 0198 FEFFFFEB 	 bl putc
+  54:duart.c       ****         str++;
+ 230              	 .loc 1 54 0
+ 231 019c 08301BE5 	 ldr r3,[fp,#-8]
+ 232 01a0 013083E2 	 add r3,r3,#1
+ 233 01a4 08300BE5 	 str r3,[fp,#-8]
+ 234              	.L18:
+  52:duart.c       ****      while(*str) {
+ARM GAS   			page 6
+
+
+ 235              	 .loc 1 52 0 discriminator 1
+ 236 01a8 08301BE5 	 ldr r3,[fp,#-8]
+ 237 01ac 0030D3E5 	 ldrb r3,[r3,#0]
+ 238 01b0 000053E3 	 cmp r3,#0
+ 239 01b4 F4FFFF1A 	 bne .L19
+  55:duart.c       ****       }
+  56:duart.c       **** }
+ 240              	 .loc 1 56 0
+ 241 01b8 04D04BE2 	 sub sp,fp,#4
+ 242 01bc 0088BDE8 	 ldmfd sp!,{fp,pc}
+ 243              	 .cfi_endproc
+ 244              	.LFE3:
+ 246              	 .align 2
+ 247              	 .global printchar
+ 249              	printchar:
+ 250              	.LFB4:
+  57:duart.c       **** 
+  58:duart.c       **** 
+  59:duart.c       **** void printchar(int val) {
+ 251              	 .loc 1 59 0
+ 252              	 .cfi_startproc
+ 253              	 
+ 254              	 
+ 255 01c0 00482DE9 	 stmfd sp!,{fp,lr}
+ 256              	.LCFI8:
+ 257              	 .cfi_def_cfa_offset 8
+ 258              	 .cfi_offset 14,-4
+ 259              	 .cfi_offset 11,-8
+ 260 01c4 04B08DE2 	 add fp,sp,#4
+ 261              	.LCFI9:
+ 262              	 .cfi_def_cfa 11,4
+ 263 01c8 08D04DE2 	 sub sp,sp,#8
+ 264 01cc 08000BE5 	 str r0,[fp,#-8]
+  60:duart.c       ****    
+  61:duart.c       ****      putc(val);
+ 265              	 .loc 1 61 0
+ 266 01d0 08301BE5 	 ldr r3,[fp,#-8]
+ 267 01d4 FF3003E2 	 and r3,r3,#255
+ 268 01d8 0300A0E1 	 mov r0,r3
+ 269 01dc FEFFFFEB 	 bl putc
+  62:duart.c       **** }
+ 270              	 .loc 1 62 0
+ 271 01e0 04D04BE2 	 sub sp,fp,#4
+ 272 01e4 0088BDE8 	 ldmfd sp!,{fp,pc}
+ 273              	 .cfi_endproc
+ 274              	.LFE4:
+ 276              	 .align 2
+ 277              	 .global printf
+ 279              	printf:
+ 280              	.LFB5:
+  63:duart.c       **** 
+  64:duart.c       **** void printf(char *fmt, ...)
+  65:duart.c       **** {
+ 281              	 .loc 1 65 0
+ 282              	 .cfi_startproc
+ 283              	 
+ 284              	 
+ARM GAS   			page 7
+
+
+ 285 01e8 0F002DE9 	 stmfd sp!,{r0,r1,r2,r3}
+ 286              	.LCFI10:
+ 287              	 .cfi_def_cfa_offset 16
+ 288              	 .cfi_offset 3,-4
+ 289              	 .cfi_offset 2,-8
+ 290              	 .cfi_offset 1,-12
+ 291              	 .cfi_offset 0,-16
+ 292 01ec 00482DE9 	 stmfd sp!,{fp,lr}
+ 293              	.LCFI11:
+ 294              	 .cfi_def_cfa_offset 24
+ 295              	 .cfi_offset 14,-20
+ 296              	 .cfi_offset 11,-24
+ 297 01f0 04B08DE2 	 add fp,sp,#4
+ 298              	.LCFI12:
+ 299              	 .cfi_def_cfa 11,20
+ 300 01f4 08D04DE2 	 sub sp,sp,#8
+  66:duart.c       **** 	va_list args;
+  67:duart.c       **** 	
+  68:duart.c       **** 	va_start(args, fmt);
+ 301              	 .loc 1 68 0
+ 302 01f8 08308BE2 	 add r3,fp,#8
+ 303 01fc 08300BE5 	 str r3,[fp,#-8]
+  69:duart.c       **** 	while (*fmt) {
+ 304              	 .loc 1 69 0
+ 305 0200 3A0000EA 	 b .L22
+ 306              	.L32:
+  70:duart.c       **** 
+  71:duart.c       **** 		if (*fmt == '%') {
+ 307              	 .loc 1 71 0
+ 308 0204 04309BE5 	 ldr r3,[fp,#4]
+ 309 0208 0030D3E5 	 ldrb r3,[r3,#0]
+ 310 020c 250053E3 	 cmp r3,#37
+ 311 0210 2F00001A 	 bne .L23
+  72:duart.c       **** 			fmt++;
+ 312              	 .loc 1 72 0
+ 313 0214 04309BE5 	 ldr r3,[fp,#4]
+ 314 0218 013083E2 	 add r3,r3,#1
+ 315 021c 04308BE5 	 str r3,[fp,#4]
+  73:duart.c       **** 			switch (*fmt) {
+ 316              	 .loc 1 73 0
+ 317 0220 04309BE5 	 ldr r3,[fp,#4]
+ 318 0224 0030D3E5 	 ldrb r3,[r3,#0]
+ 319 0228 580053E3 	 cmp r3,#88
+ 320 022c 1C00000A 	 beq .L28
+ 321 0230 580053E3 	 cmp r3,#88
+ 322 0234 060000CA 	 bgt .L29
+ 323 0238 430053E3 	 cmp r3,#67
+ 324 023c 0A00000A 	 beq .L26
+ 325 0240 530053E3 	 cmp r3,#83
+ 326 0244 0F00000A 	 beq .L27
+ 327 0248 250053E3 	 cmp r3,#37
+ 328 024c 1B00000A 	 beq .L25
+ 329 0250 1E0000EA 	 b .L24
+ 330              	.L29:
+ 331 0254 730053E3 	 cmp r3,#115
+ 332 0258 0A00000A 	 beq .L27
+ 333 025c 780053E3 	 cmp r3,#120
+ARM GAS   			page 8
+
+
+ 334 0260 0F00000A 	 beq .L28
+ 335 0264 630053E3 	 cmp r3,#99
+ 336 0268 1800001A 	 bne .L24
+ 337              	.L26:
+  74:duart.c       ****                         case 'c':
+  75:duart.c       ****                         case 'C':
+  76:duart.c       ****                               printchar(va_arg(args,int));
+ 338              	 .loc 1 76 0
+ 339 026c 08301BE5 	 ldr r3,[fp,#-8]
+ 340 0270 042083E2 	 add r2,r3,#4
+ 341 0274 08200BE5 	 str r2,[fp,#-8]
+ 342 0278 003093E5 	 ldr r3,[r3,#0]
+ 343 027c 0300A0E1 	 mov r0,r3
+ 344 0280 FEFFFFEB 	 bl printchar
+  77:duart.c       ****                               break;
+ 345              	 .loc 1 77 0
+ 346 0284 160000EA 	 b .L31
+ 347              	.L27:
+  78:duart.c       ****                         case 's':
+  79:duart.c       ****                         case 'S':
+  80:duart.c       ****                               printstr(va_arg(args,char*));
+ 348              	 .loc 1 80 0
+ 349 0288 08301BE5 	 ldr r3,[fp,#-8]
+ 350 028c 042083E2 	 add r2,r3,#4
+ 351 0290 08200BE5 	 str r2,[fp,#-8]
+ 352 0294 003093E5 	 ldr r3,[r3,#0]
+ 353 0298 0300A0E1 	 mov r0,r3
+ 354 029c FEFFFFEB 	 bl printstr
+  81:duart.c       ****                               break;
+ 355              	 .loc 1 81 0
+ 356 02a0 0F0000EA 	 b .L31
+ 357              	.L28:
+  82:duart.c       **** 			case 'x':
+  83:duart.c       **** 			case 'X':
+  84:duart.c       **** 				printhex(va_arg(args, int));
+ 358              	 .loc 1 84 0
+ 359 02a4 08301BE5 	 ldr r3,[fp,#-8]
+ 360 02a8 042083E2 	 add r2,r3,#4
+ 361 02ac 08200BE5 	 str r2,[fp,#-8]
+ 362 02b0 003093E5 	 ldr r3,[r3,#0]
+ 363 02b4 0300A0E1 	 mov r0,r3
+ 364 02b8 FEFFFFEB 	 bl printhex
+  85:duart.c       **** 				break;
+ 365              	 .loc 1 85 0
+ 366 02bc 080000EA 	 b .L31
+ 367              	.L25:
+  86:duart.c       **** 			case '%':
+  87:duart.c       **** 				putc('%');
+ 368              	 .loc 1 87 0
+ 369 02c0 2500A0E3 	 mov r0,#37
+ 370 02c4 FEFFFFEB 	 bl putc
+  88:duart.c       **** 				break;
+ 371              	 .loc 1 88 0
+ 372 02c8 0000A0E1 	 mov r0,r0
+ 373 02cc 040000EA 	 b .L31
+ 374              	.L24:
+  89:duart.c       **** 			default:
+ARM GAS   			page 9
+
+
+  90:duart.c       **** 				break;
+ 375              	 .loc 1 90 0
+ 376 02d0 030000EA 	 b .L31
+ 377              	.L23:
+  91:duart.c       **** 			}
+  92:duart.c       **** 
+  93:duart.c       **** 		} else {
+  94:duart.c       **** 			putc(*fmt);
+ 378              	 .loc 1 94 0
+ 379 02d4 04309BE5 	 ldr r3,[fp,#4]
+ 380 02d8 0030D3E5 	 ldrb r3,[r3,#0]
+ 381 02dc 0300A0E1 	 mov r0,r3
+ 382 02e0 FEFFFFEB 	 bl putc
+ 383              	.L31:
+  95:duart.c       **** 		}
+  96:duart.c       **** 		fmt++;
+ 384              	 .loc 1 96 0
+ 385 02e4 04309BE5 	 ldr r3,[fp,#4]
+ 386 02e8 013083E2 	 add r3,r3,#1
+ 387 02ec 04308BE5 	 str r3,[fp,#4]
+ 388              	.L22:
+  69:duart.c       **** 	while (*fmt) {
+ 389              	 .loc 1 69 0 discriminator 1
+ 390 02f0 04309BE5 	 ldr r3,[fp,#4]
+ 391 02f4 0030D3E5 	 ldrb r3,[r3,#0]
+ 392 02f8 000053E3 	 cmp r3,#0
+ 393 02fc C0FFFF1A 	 bne .L32
+  97:duart.c       **** 	}
+  98:duart.c       **** 	va_end(args);
+  99:duart.c       **** }
+ 394              	 .loc 1 99 0
+ 395 0300 04D04BE2 	 sub sp,fp,#4
+ 396 0304 0048BDE8 	 ldmfd sp!,{fp,lr}
+ 397 0308 10D08DE2 	 add sp,sp,#16
+ 398 030c 1EFF2FE1 	 bx lr
+ 399              	 .cfi_endproc
+ 400              	.LFE5:
+ 402              	 .align 2
+ 403              	 .global getchar
+ 405              	getchar:
+ 406              	.LFB6:
+ 100:duart.c       **** 
+ 101:duart.c       **** int getchar(void) {
+ 407              	 .loc 1 101 0
+ 408              	 .cfi_startproc
+ 409              	 
+ 410              	 
+ 411              	 
+ 412 0310 04B02DE5 	 str fp,[sp,#-4]!
+ 413              	.LCFI13:
+ 414              	 .cfi_def_cfa_offset 4
+ 415              	 .cfi_offset 11,-4
+ 416 0314 00B08DE2 	 add fp,sp,#0
+ 417              	.LCFI14:
+ 418              	 .cfi_def_cfa_register 11
+ 102:duart.c       ****   
+ 103:duart.c       ****   	while(HW_UARTDBGFR_RD()&BM_UARTDBGFR_RXFE);      
+ARM GAS   			page 10
+
+
+ 419              	 .loc 1 103 0
+ 420 0318 0000A0E1 	 mov r0,r0
+ 421              	.L34:
+ 422              	 .loc 1 103 0 is_stmt 0 discriminator 1
+ 423 031c 28309FE5 	 ldr r3,.L35
+ 424 0320 003093E5 	 ldr r3,[r3,#0]
+ 425 0324 103003E2 	 and r3,r3,#16
+ 426 0328 000053E3 	 cmp r3,#0
+ 427 032c FAFFFF1A 	 bne .L34
+ 104:duart.c       ****         return (HW_UARTDBGDR_RD()& 0xff);
+ 428              	 .loc 1 104 0 is_stmt 1
+ 429 0330 18309FE5 	 ldr r3,.L35+4
+ 430 0334 003093E5 	 ldr r3,[r3,#0]
+ 431 0338 FF3003E2 	 and r3,r3,#255
+ 105:duart.c       **** 
+ 106:duart.c       **** }      
+ 432              	 .loc 1 106 0
+ 433 033c 0300A0E1 	 mov r0,r3
+ 434 0340 00D08BE2 	 add sp,fp,#0
+ 435 0344 04B09DE4 	 ldmfd sp!,{fp}
+ 436 0348 1EFF2FE1 	 bx lr
+ 437              	.L36:
+ 438              	 .align 2
+ 439              	.L35:
+ 440 034c 18400780 	 .word -2147008488
+ 441 0350 00400780 	 .word -2147008512
+ 442              	 .cfi_endproc
+ 443              	.LFE6:
+ 445              	 .align 2
+ 446              	 .global gets
+ 448              	gets:
+ 449              	.LFB7:
+ 107:duart.c       **** 
+ 108:duart.c       **** 
+ 109:duart.c       **** int gets(char* buffer, int max_len) {
+ 450              	 .loc 1 109 0
+ 451              	 .cfi_startproc
+ 452              	 
+ 453              	 
+ 454 0354 10482DE9 	 stmfd sp!,{r4,fp,lr}
+ 455              	.LCFI15:
+ 456              	 .cfi_def_cfa_offset 12
+ 457              	 .cfi_offset 14,-4
+ 458              	 .cfi_offset 11,-8
+ 459              	 .cfi_offset 4,-12
+ 460 0358 08B08DE2 	 add fp,sp,#8
+ 461              	.LCFI16:
+ 462              	 .cfi_def_cfa 11,4
+ 463 035c 14D04DE2 	 sub sp,sp,#20
+ 464 0360 18000BE5 	 str r0,[fp,#-24]
+ 465 0364 1C100BE5 	 str r1,[fp,#-28]
+ 110:duart.c       **** int i = 0;
+ 466              	 .loc 1 110 0
+ 467 0368 0030A0E3 	 mov r3,#0
+ 468 036c 10300BE5 	 str r3,[fp,#-16]
+ 469              	.L40:
+ 111:duart.c       ****     do {
+ARM GAS   			page 11
+
+
+ 112:duart.c       ****          buffer[i] = getchar();
+ 470              	 .loc 1 112 0
+ 471 0370 10301BE5 	 ldr r3,[fp,#-16]
+ 472 0374 18201BE5 	 ldr r2,[fp,#-24]
+ 473 0378 034082E0 	 add r4,r2,r3
+ 474 037c FEFFFFEB 	 bl getchar
+ 475 0380 0030A0E1 	 mov r3,r0
+ 476 0384 FF3003E2 	 and r3,r3,#255
+ 477 0388 0030C4E5 	 strb r3,[r4,#0]
+ 113:duart.c       ****          if(buffer[i] == '\n') {
+ 478              	 .loc 1 113 0
+ 479 038c 10301BE5 	 ldr r3,[fp,#-16]
+ 480 0390 18201BE5 	 ldr r2,[fp,#-24]
+ 481 0394 033082E0 	 add r3,r2,r3
+ 482 0398 0030D3E5 	 ldrb r3,[r3,#0]
+ 483 039c 0A0053E3 	 cmp r3,#10
+ 484 03a0 0700000A 	 beq .L41
+ 485              	.L38:
+ 114:duart.c       ****              break;
+ 115:duart.c       ****          }
+ 116:duart.c       ****          i++;
+ 486              	 .loc 1 116 0
+ 487 03a4 10301BE5 	 ldr r3,[fp,#-16]
+ 488 03a8 013083E2 	 add r3,r3,#1
+ 489 03ac 10300BE5 	 str r3,[fp,#-16]
+ 117:duart.c       ****     }while(i < max_len);
+ 490              	 .loc 1 117 0
+ 491 03b0 10201BE5 	 ldr r2,[fp,#-16]
+ 492 03b4 1C301BE5 	 ldr r3,[fp,#-28]
+ 493 03b8 030052E1 	 cmp r2,r3
+ 494 03bc EBFFFFBA 	 blt .L40
+ 495 03c0 000000EA 	 b .L39
+ 496              	.L41:
+ 114:duart.c       ****              break;
+ 497              	 .loc 1 114 0
+ 498 03c4 0000A0E1 	 mov r0,r0
+ 499              	.L39:
+ 118:duart.c       ****      buffer[i] = 0x00;
+ 500              	 .loc 1 118 0
+ 501 03c8 10301BE5 	 ldr r3,[fp,#-16]
+ 502 03cc 18201BE5 	 ldr r2,[fp,#-24]
+ 503 03d0 033082E0 	 add r3,r2,r3
+ 504 03d4 0020A0E3 	 mov r2,#0
+ 505 03d8 0020C3E5 	 strb r2,[r3,#0]
+ 119:duart.c       ****    
+ 120:duart.c       **** return i;
+ 506              	 .loc 1 120 0
+ 507 03dc 10301BE5 	 ldr r3,[fp,#-16]
+ 121:duart.c       **** }    
+ 508              	 .loc 1 121 0
+ 509 03e0 0300A0E1 	 mov r0,r3
+ 510 03e4 08D04BE2 	 sub sp,fp,#8
+ 511 03e8 1088BDE8 	 ldmfd sp!,{r4,fp,pc}
+ 512              	 .cfi_endproc
+ 513              	.LFE7:
+ 515              	.Letext0:
+ 516              	 .file 2 "/opt/projects/cfa_10036_buildroot/output/host/opt/ext-toolchain/bin/../lib/gcc/arm-none-linux-gnueabi/4.6.1/include/stdarg.h"
+ARM GAS   			page 12
+
+
+ 517              	 .file 3 "./../mach-mx28/includes/registers/regs.h"
+ 518              	 .file 4 "./../mach-mx28/includes/registers/regsuartdbg.h"
+ 519              	 .file 5 "<built-in>"
+ARM GAS   			page 13
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 duart.c
+    {standard input}:16     .text:00000000 $a
+    {standard input}:19     .text:00000000 init_DUART
+    {standard input}:55     .text:00000040 $d
+    {standard input}:61     .text:0000004c $a
+    {standard input}:64     .text:0000004c putc
+    {standard input}:126    .text:000000d0 $d
+    {standard input}:132    .text:000000dc $a
+    {standard input}:135    .text:000000dc printhex
+    {standard input}:206    .text:00000178 printstr
+    {standard input}:249    .text:000001c0 printchar
+    {standard input}:279    .text:000001e8 printf
+    {standard input}:405    .text:00000310 getchar
+    {standard input}:440    .text:0000034c $d
+    {standard input}:445    .text:00000354 $a
+    {standard input}:448    .text:00000354 gets
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
+arm-none-linux-gnueabi-gcc -c -c -g -Wa,-a,-ad -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O0 -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o leds.o leds.c
+ARM GAS   			page 1
+
+
+   1              	 .arch armv5te
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,2
+   9              	 .eabi_attribute 30,6
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .file "leds.c"
+  13              	 .text
+  14              	.Ltext0:
+  15              	 .cfi_sections .debug_frame
+  16              	 .align 2
+  17              	 .global init_PWRLED
+  19              	init_PWRLED:
+  20              	.LFB0:
+  21              	 .file 1 "leds.c"
+   1:leds.c        **** #include "regspinctrl.h"
+   2:leds.c        **** //#include "types.h"
+   3:leds.c        **** 
+   4:leds.c        **** 
+   5:leds.c        **** // PWRLED on BANK3_PIN4, MUXSEL6, HW_PINCTRL_DRIVE12
+   6:leds.c        **** #define PWRLED_MUX	 (3<<8)
+   7:leds.c        **** #define PWRLED_PIN	 (1<<4)
+   8:leds.c        **** 
+   9:leds.c        **** void init_PWRLED(void) {
+  22              	 .loc 1 9 0
+  23              	 .cfi_startproc
+  24              	 
+  25              	 
+  26              	 
+  27 0000 04B02DE5 	 str fp,[sp,#-4]!
+  28              	.LCFI0:
+  29              	 .cfi_def_cfa_offset 4
+  30              	 .cfi_offset 11,-4
+  31 0004 00B08DE2 	 add fp,sp,#0
+  32              	.LCFI1:
+  33              	 .cfi_def_cfa_register 11
+  10:leds.c        **** 
+  11:leds.c        **** 
+  12:leds.c        **** //Enable pin GPIO3_4 LED is active low 
+  13:leds.c        ****         HW_PINCTRL_MUXSEL6_SET(PWRLED_MUX);
+  34              	 .loc 1 13 0
+  35 0008 28309FE5 	 ldr r3,.L2
+  36 000c 032CA0E3 	 mov r2,#768
+  37 0010 002083E5 	 str r2,[r3,#0]
+  14:leds.c        ****         HW_PINCTRL_DOUT3_CLR(PWRLED_PIN);
+  38              	 .loc 1 14 0
+  39 0014 20309FE5 	 ldr r3,.L2+4
+  40 0018 1020A0E3 	 mov r2,#16
+  41 001c 002083E5 	 str r2,[r3,#0]
+  15:leds.c        ****         HW_PINCTRL_DOE3_SET(PWRLED_PIN);
+  42              	 .loc 1 15 0
+  43 0020 18309FE5 	 ldr r3,.L2+8
+ARM GAS   			page 2
+
+
+  44 0024 1020A0E3 	 mov r2,#16
+  45 0028 002083E5 	 str r2,[r3,#0]
+  16:leds.c        ****        
+  17:leds.c        **** }
+  46              	 .loc 1 17 0
+  47 002c 00D08BE2 	 add sp,fp,#0
+  48 0030 04B09DE4 	 ldmfd sp!,{fp}
+  49 0034 1EFF2FE1 	 bx lr
+  50              	.L3:
+  51              	 .align 2
+  52              	.L2:
+  53 0038 64810180 	 .word -2147384988
+  54 003c 38870180 	 .word -2147383496
+  55 0040 348B0180 	 .word -2147382476
+  56              	 .cfi_endproc
+  57              	.LFE0:
+  59              	 .align 2
+  60              	 .global PWRLED_ON
+  62              	PWRLED_ON:
+  63              	.LFB1:
+  18:leds.c        **** 
+  19:leds.c        **** inline void PWRLED_ON() {
+  64              	 .loc 1 19 0
+  65              	 .cfi_startproc
+  66              	 
+  67              	 
+  68              	 
+  69 0044 04B02DE5 	 str fp,[sp,#-4]!
+  70              	.LCFI2:
+  71              	 .cfi_def_cfa_offset 4
+  72              	 .cfi_offset 11,-4
+  73 0048 00B08DE2 	 add fp,sp,#0
+  74              	.LCFI3:
+  75              	 .cfi_def_cfa_register 11
+  20:leds.c        ****                 HW_PINCTRL_DOE3_SET(PWRLED_PIN);
+  76              	 .loc 1 20 0
+  77 004c 10309FE5 	 ldr r3,.L5
+  78 0050 1020A0E3 	 mov r2,#16
+  79 0054 002083E5 	 str r2,[r3,#0]
+  21:leds.c        **** }
+  80              	 .loc 1 21 0
+  81 0058 00D08BE2 	 add sp,fp,#0
+  82 005c 04B09DE4 	 ldmfd sp!,{fp}
+  83 0060 1EFF2FE1 	 bx lr
+  84              	.L6:
+  85              	 .align 2
+  86              	.L5:
+  87 0064 348B0180 	 .word -2147382476
+  88              	 .cfi_endproc
+  89              	.LFE1:
+  91              	 .align 2
+  92              	 .global PWRLED_OFF
+  94              	PWRLED_OFF:
+  95              	.LFB2:
+  22:leds.c        **** inline void PWRLED_OFF() {
+  96              	 .loc 1 22 0
+  97              	 .cfi_startproc
+ARM GAS   			page 3
+
+
+  98              	 
+  99              	 
+ 100              	 
+ 101 0068 04B02DE5 	 str fp,[sp,#-4]!
+ 102              	.LCFI4:
+ 103              	 .cfi_def_cfa_offset 4
+ 104              	 .cfi_offset 11,-4
+ 105 006c 00B08DE2 	 add fp,sp,#0
+ 106              	.LCFI5:
+ 107              	 .cfi_def_cfa_register 11
+  23:leds.c        ****                 HW_PINCTRL_DOUT3_CLR(PWRLED_PIN);
+ 108              	 .loc 1 23 0
+ 109 0070 10309FE5 	 ldr r3,.L8
+ 110 0074 1020A0E3 	 mov r2,#16
+ 111 0078 002083E5 	 str r2,[r3,#0]
+  24:leds.c        **** }
+ 112              	 .loc 1 24 0
+ 113 007c 00D08BE2 	 add sp,fp,#0
+ 114 0080 04B09DE4 	 ldmfd sp!,{fp}
+ 115 0084 1EFF2FE1 	 bx lr
+ 116              	.L9:
+ 117              	 .align 2
+ 118              	.L8:
+ 119 0088 38870180 	 .word -2147383496
+ 120              	 .cfi_endproc
+ 121              	.LFE2:
+ 123              	 .align 2
+ 124              	 .global set_PWRLED
+ 126              	set_PWRLED:
+ 127              	.LFB3:
+  25:leds.c        **** 
+  26:leds.c        **** 
+  27:leds.c        **** inline void set_PWRLED(int state) {
+ 128              	 .loc 1 27 0
+ 129              	 .cfi_startproc
+ 130              	 
+ 131              	 
+ 132              	 
+ 133 008c 04B02DE5 	 str fp,[sp,#-4]!
+ 134              	.LCFI6:
+ 135              	 .cfi_def_cfa_offset 4
+ 136              	 .cfi_offset 11,-4
+ 137 0090 00B08DE2 	 add fp,sp,#0
+ 138              	.LCFI7:
+ 139              	 .cfi_def_cfa_register 11
+ 140 0094 0CD04DE2 	 sub sp,sp,#12
+ 141 0098 08000BE5 	 str r0,[fp,#-8]
+  28:leds.c        ****         if(state) {
+ 142              	 .loc 1 28 0
+ 143 009c 08301BE5 	 ldr r3,[fp,#-8]
+ 144 00a0 000053E3 	 cmp r3,#0
+ 145 00a4 0300000A 	 beq .L11
+  29:leds.c        ****                 HW_PINCTRL_DOE3_SET(PWRLED_PIN);
+ 146              	 .loc 1 29 0
+ 147 00a8 20309FE5 	 ldr r3,.L13
+ 148 00ac 1020A0E3 	 mov r2,#16
+ 149 00b0 002083E5 	 str r2,[r3,#0]
+ARM GAS   			page 4
+
+
+ 150 00b4 020000EA 	 b .L10
+ 151              	.L11:
+  30:leds.c        ****         }
+  31:leds.c        ****         else {
+  32:leds.c        ****                 HW_PINCTRL_DOUT3_CLR(PWRLED_PIN);
+ 152              	 .loc 1 32 0
+ 153 00b8 14309FE5 	 ldr r3,.L13+4
+ 154 00bc 1020A0E3 	 mov r2,#16
+ 155 00c0 002083E5 	 str r2,[r3,#0]
+ 156              	.L10:
+  33:leds.c        ****         }
+  34:leds.c        **** }
+ 157              	 .loc 1 34 0
+ 158 00c4 00D08BE2 	 add sp,fp,#0
+ 159 00c8 04B09DE4 	 ldmfd sp!,{fp}
+ 160 00cc 1EFF2FE1 	 bx lr
+ 161              	.L14:
+ 162              	 .align 2
+ 163              	.L13:
+ 164 00d0 348B0180 	 .word -2147382476
+ 165 00d4 38870180 	 .word -2147383496
+ 166              	 .cfi_endproc
+ 167              	.LFE3:
+ 169              	 .align 2
+ 170              	 .global toggle_PWRLED
+ 172              	toggle_PWRLED:
+ 173              	.LFB4:
+  35:leds.c        **** 
+  36:leds.c        **** inline void toggle_PWRLED(void) {
+ 174              	 .loc 1 36 0
+ 175              	 .cfi_startproc
+ 176              	 
+ 177              	 
+ 178              	 
+ 179 00d8 04B02DE5 	 str fp,[sp,#-4]!
+ 180              	.LCFI8:
+ 181              	 .cfi_def_cfa_offset 4
+ 182              	 .cfi_offset 11,-4
+ 183 00dc 00B08DE2 	 add fp,sp,#0
+ 184              	.LCFI9:
+ 185              	 .cfi_def_cfa_register 11
+  37:leds.c        **** 
+  38:leds.c        ****                 HW_PINCTRL_DOUT3_TOG(PWRLED_PIN);
+ 186              	 .loc 1 38 0
+ 187 00e0 10309FE5 	 ldr r3,.L16
+ 188 00e4 1020A0E3 	 mov r2,#16
+ 189 00e8 002083E5 	 str r2,[r3,#0]
+  39:leds.c        **** }
+ 190              	 .loc 1 39 0
+ 191 00ec 00D08BE2 	 add sp,fp,#0
+ 192 00f0 04B09DE4 	 ldmfd sp!,{fp}
+ 193 00f4 1EFF2FE1 	 bx lr
+ 194              	.L17:
+ 195              	 .align 2
+ 196              	.L16:
+ 197 00f8 3C870180 	 .word -2147383492
+ 198              	 .cfi_endproc
+ARM GAS   			page 5
+
+
+ 199              	.LFE4:
+ 201              	.Letext0:
+ 202              	 .file 2 "./../mach-mx28/includes/registers/regs.h"
+ARM GAS   			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 leds.c
+    {standard input}:16     .text:00000000 $a
+    {standard input}:19     .text:00000000 init_PWRLED
+    {standard input}:53     .text:00000038 $d
+    {standard input}:59     .text:00000044 $a
+    {standard input}:62     .text:00000044 PWRLED_ON
+    {standard input}:87     .text:00000064 $d
+    {standard input}:91     .text:00000068 $a
+    {standard input}:94     .text:00000068 PWRLED_OFF
+    {standard input}:119    .text:00000088 $d
+    {standard input}:123    .text:0000008c $a
+    {standard input}:126    .text:0000008c set_PWRLED
+    {standard input}:164    .text:000000d0 $d
+    {standard input}:169    .text:000000d8 $a
+    {standard input}:172    .text:000000d8 toggle_PWRLED
+    {standard input}:197    .text:000000f8 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
+arm-none-linux-gnueabi-gcc -c -c -g -Wa,-a,-ad -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O0 -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o memory.o memory.c
+ARM GAS   			page 1
+
+
+   1              	 .arch armv5te
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,2
+   9              	 .eabi_attribute 30,6
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .file "memory.c"
+  13              	 .text
+  14              	.Ltext0:
+  15              	 .cfi_sections .debug_frame
+  16              	 .align 2
+  17              	 .global get_ram_size
+  19              	get_ram_size:
+  20              	.LFB0:
+  21              	 .file 1 "memory.c"
+   1:memory.c      **** /*
+   2:memory.c      ****  * Check memory range for valid RAM. A simple memory test determines
+   3:memory.c      ****  * the actually available RAM size between addresses `base' and
+   4:memory.c      ****  * `base + maxsize'.
+   5:memory.c      ****  * Copied and pasted from barebox common/memsize.c file
+   6:memory.c      ****  */
+   7:memory.c      **** long get_ram_size(long *base, long maxsize)
+   8:memory.c      **** {
+  22              	 .loc 1 8 0
+  23              	 .cfi_startproc
+  24              	 
+  25              	 
+  26              	 
+  27 0000 04B02DE5 	 str fp,[sp,#-4]!
+  28              	.LCFI0:
+  29              	 .cfi_def_cfa_offset 4
+  30              	 .cfi_offset 11,-4
+  31 0004 00B08DE2 	 add fp,sp,#0
+  32              	.LCFI1:
+  33              	 .cfi_def_cfa_register 11
+  34 0008 24D04DE2 	 sub sp,sp,#36
+  35 000c 20000BE5 	 str r0,[fp,#-32]
+  36 0010 24100BE5 	 str r1,[fp,#-36]
+   9:memory.c      **** 	volatile long *addr;
+  10:memory.c      **** 	long           cnt;
+  11:memory.c      **** 	long           val;
+  12:memory.c      **** 	long           size;
+  13:memory.c      **** 	int            i = 0;
+  37              	 .loc 1 13 0
+  38 0014 0030A0E3 	 mov r3,#0
+  39 0018 0C300BE5 	 str r3,[fp,#-12]
+  14:memory.c      **** 
+  15:memory.c      **** 	for (cnt = (maxsize / sizeof (long)) >> 1; cnt > 0; cnt >>= 1) {
+  40              	 .loc 1 15 0
+  41 001c 24301BE5 	 ldr r3,[fp,#-36]
+  42 0020 2331A0E1 	 mov r3,r3,lsr#2
+  43 0024 A330A0E1 	 mov r3,r3,lsr#1
+ARM GAS   			page 2
+
+
+  44 0028 08300BE5 	 str r3,[fp,#-8]
+  45 002c 0B0000EA 	 b .L2
+  46              	.L3:
+  16:memory.c      **** 		addr = base + cnt;	/* pointer arith! */
+  47              	 .loc 1 16 0 discriminator 2
+  48 0030 08301BE5 	 ldr r3,[fp,#-8]
+  49 0034 0331A0E1 	 mov r3,r3,asl#2
+  50 0038 20201BE5 	 ldr r2,[fp,#-32]
+  51 003c 033082E0 	 add r3,r2,r3
+  52 0040 10300BE5 	 str r3,[fp,#-16]
+  17:memory.c      **** 		*addr = ~cnt;
+  53              	 .loc 1 17 0 discriminator 2
+  54 0044 08301BE5 	 ldr r3,[fp,#-8]
+  55 0048 0320E0E1 	 mvn r2,r3
+  56 004c 10301BE5 	 ldr r3,[fp,#-16]
+  57 0050 002083E5 	 str r2,[r3,#0]
+  15:memory.c      **** 	for (cnt = (maxsize / sizeof (long)) >> 1; cnt > 0; cnt >>= 1) {
+  58              	 .loc 1 15 0 discriminator 2
+  59 0054 08301BE5 	 ldr r3,[fp,#-8]
+  60 0058 C330A0E1 	 mov r3,r3,asr#1
+  61 005c 08300BE5 	 str r3,[fp,#-8]
+  62              	.L2:
+  15:memory.c      **** 	for (cnt = (maxsize / sizeof (long)) >> 1; cnt > 0; cnt >>= 1) {
+  63              	 .loc 1 15 0 is_stmt 0 discriminator 1
+  64 0060 08301BE5 	 ldr r3,[fp,#-8]
+  65 0064 000053E3 	 cmp r3,#0
+  66 0068 F0FFFFCA 	 bgt .L3
+  18:memory.c      **** 	}
+  19:memory.c      **** 
+  20:memory.c      **** 	addr = base;
+  67              	 .loc 1 20 0 is_stmt 1
+  68 006c 20301BE5 	 ldr r3,[fp,#-32]
+  69 0070 10300BE5 	 str r3,[fp,#-16]
+  21:memory.c      **** 	*addr = 0;
+  70              	 .loc 1 21 0
+  71 0074 10301BE5 	 ldr r3,[fp,#-16]
+  72 0078 0020A0E3 	 mov r2,#0
+  73 007c 002083E5 	 str r2,[r3,#0]
+  22:memory.c      **** 
+  23:memory.c      **** 	for (cnt = 1; cnt < maxsize / sizeof (long); cnt <<= 1) {
+  74              	 .loc 1 23 0
+  75 0080 0130A0E3 	 mov r3,#1
+  76 0084 08300BE5 	 str r3,[fp,#-8]
+  77 0088 140000EA 	 b .L4
+  78              	.L7:
+  24:memory.c      **** 		addr = base + cnt;	/* pointer arith! */
+  79              	 .loc 1 24 0
+  80 008c 08301BE5 	 ldr r3,[fp,#-8]
+  81 0090 0331A0E1 	 mov r3,r3,asl#2
+  82 0094 20201BE5 	 ldr r2,[fp,#-32]
+  83 0098 033082E0 	 add r3,r2,r3
+  84 009c 10300BE5 	 str r3,[fp,#-16]
+  25:memory.c      **** 		val = *addr;
+  85              	 .loc 1 25 0
+  86 00a0 10301BE5 	 ldr r3,[fp,#-16]
+  87 00a4 003093E5 	 ldr r3,[r3,#0]
+  88 00a8 14300BE5 	 str r3,[fp,#-20]
+ARM GAS   			page 3
+
+
+  26:memory.c      **** 		if (val != ~cnt) {
+  89              	 .loc 1 26 0
+  90 00ac 08301BE5 	 ldr r3,[fp,#-8]
+  91 00b0 0320E0E1 	 mvn r2,r3
+  92 00b4 14301BE5 	 ldr r3,[fp,#-20]
+  93 00b8 030052E1 	 cmp r2,r3
+  94 00bc 0400000A 	 beq .L5
+  27:memory.c      **** 			size = cnt * sizeof (long);
+  95              	 .loc 1 27 0
+  96 00c0 08301BE5 	 ldr r3,[fp,#-8]
+  97 00c4 0331A0E1 	 mov r3,r3,asl#2
+  98 00c8 18300BE5 	 str r3,[fp,#-24]
+  28:memory.c      **** 			return (size);
+  99              	 .loc 1 28 0
+ 100 00cc 18301BE5 	 ldr r3,[fp,#-24]
+ 101 00d0 080000EA 	 b .L6
+ 102              	.L5:
+  23:memory.c      **** 	for (cnt = 1; cnt < maxsize / sizeof (long); cnt <<= 1) {
+ 103              	 .loc 1 23 0
+ 104 00d4 08301BE5 	 ldr r3,[fp,#-8]
+ 105 00d8 8330A0E1 	 mov r3,r3,asl#1
+ 106 00dc 08300BE5 	 str r3,[fp,#-8]
+ 107              	.L4:
+  23:memory.c      **** 	for (cnt = 1; cnt < maxsize / sizeof (long); cnt <<= 1) {
+ 108              	 .loc 1 23 0 is_stmt 0 discriminator 1
+ 109 00e0 08201BE5 	 ldr r2,[fp,#-8]
+ 110 00e4 24301BE5 	 ldr r3,[fp,#-36]
+ 111 00e8 2331A0E1 	 mov r3,r3,lsr#2
+ 112 00ec 030052E1 	 cmp r2,r3
+ 113 00f0 E5FFFF3A 	 bcc .L7
+  29:memory.c      **** 		}
+  30:memory.c      **** 	}
+  31:memory.c      **** 
+  32:memory.c      **** 	return (maxsize);
+ 114              	 .loc 1 32 0 is_stmt 1
+ 115 00f4 24301BE5 	 ldr r3,[fp,#-36]
+ 116              	.L6:
+  33:memory.c      **** }
+ 117              	 .loc 1 33 0
+ 118 00f8 0300A0E1 	 mov r0,r3
+ 119 00fc 00D08BE2 	 add sp,fp,#0
+ 120 0100 04B09DE4 	 ldmfd sp!,{fp}
+ 121 0104 1EFF2FE1 	 bx lr
+ 122              	 .cfi_endproc
+ 123              	.LFE0:
+ 125              	.Letext0:
+ARM GAS   			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 memory.c
+    {standard input}:16     .text:00000000 $a
+    {standard input}:19     .text:00000000 get_ram_size
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
+arm-none-linux-gnueabi-gcc -c -c -g -Wa,-a,-ad -Wall -I./../mach-mx28/includes/registers -I./../mach-mx28/includes/registers/mach -I./ -O0 -DMEM_DDR1 -DMX28 -DBOARD_CFA10036 -o timers.o timers.c
+ARM GAS   			page 1
+
+
+   1              	 .arch armv5te
+   2              	 .fpu softvfp
+   3              	 .eabi_attribute 20,1
+   4              	 .eabi_attribute 21,1
+   5              	 .eabi_attribute 23,3
+   6              	 .eabi_attribute 24,1
+   7              	 .eabi_attribute 25,1
+   8              	 .eabi_attribute 26,2
+   9              	 .eabi_attribute 30,6
+  10              	 .eabi_attribute 34,0
+  11              	 .eabi_attribute 18,4
+  12              	 .file "timers.c"
+  13              	 .text
+  14              	.Ltext0:
+  15              	 .cfi_sections .debug_frame
+  16              	 .align 2
+  17              	 .global udelay
+  19              	udelay:
+  20              	.LFB0:
+  21              	 .file 1 "timers.c"
+   1:timers.c      **** #include "regsdigctl.h"
+   2:timers.c      **** void udelay(unsigned int us)
+   3:timers.c      **** {
+  22              	 .loc 1 3 0
+  23              	 .cfi_startproc
+  24              	 
+  25              	 
+  26              	 
+  27 0000 04B02DE5 	 str fp,[sp,#-4]!
+  28              	.LCFI0:
+  29              	 .cfi_def_cfa_offset 4
+  30              	 .cfi_offset 11,-4
+  31 0004 00B08DE2 	 add fp,sp,#0
+  32              	.LCFI1:
+  33              	 .cfi_def_cfa_register 11
+  34 0008 14D04DE2 	 sub sp,sp,#20
+  35 000c 10000BE5 	 str r0,[fp,#-16]
+   4:timers.c      **** 	unsigned int start , cur;
+   5:timers.c      **** 	start = cur = HW_DIGCTL_MICROSECONDS_RD();
+  36              	 .loc 1 5 0
+  37 0010 40309FE5 	 ldr r3,.L4
+  38 0014 003093E5 	 ldr r3,[r3,#0]
+  39 0018 08300BE5 	 str r3,[fp,#-8]
+  40 001c 08301BE5 	 ldr r3,[fp,#-8]
+  41 0020 0C300BE5 	 str r3,[fp,#-12]
+   6:timers.c      **** 
+   7:timers.c      **** 	while (cur < start+us) {
+  42              	 .loc 1 7 0
+  43 0024 020000EA 	 b .L2
+  44              	.L3:
+   8:timers.c      **** 
+   9:timers.c      **** 		cur = HW_DIGCTL_MICROSECONDS_RD();
+  45              	 .loc 1 9 0
+  46 0028 28309FE5 	 ldr r3,.L4
+  47 002c 003093E5 	 ldr r3,[r3,#0]
+  48 0030 08300BE5 	 str r3,[fp,#-8]
+  49              	.L2:
+ARM GAS   			page 2
+
+
+   7:timers.c      **** 	while (cur < start+us) {
+  50              	 .loc 1 7 0 discriminator 1
+  51 0034 0C201BE5 	 ldr r2,[fp,#-12]
+  52 0038 10301BE5 	 ldr r3,[fp,#-16]
+  53 003c 032082E0 	 add r2,r2,r3
+  54 0040 08301BE5 	 ldr r3,[fp,#-8]
+  55 0044 030052E1 	 cmp r2,r3
+  56 0048 F6FFFF8A 	 bhi .L3
+  10:timers.c      **** 		/*printf("0x%x\r\n",cur);*/
+  11:timers.c      **** 	}
+  12:timers.c      **** 
+  13:timers.c      **** }
+  57              	 .loc 1 13 0
+  58 004c 00D08BE2 	 add sp,fp,#0
+  59 0050 04B09DE4 	 ldmfd sp!,{fp}
+  60 0054 1EFF2FE1 	 bx lr
+  61              	.L5:
+  62              	 .align 2
+  63              	.L4:
+  64 0058 C0C00180 	 .word -2147368768
+  65              	 .cfi_endproc
+  66              	.LFE0:
+  68              	 .align 2
+  69              	 .global micros
+  71              	micros:
+  72              	.LFB1:
+  14:timers.c      **** 
+  15:timers.c      **** inline long micros() {
+  73              	 .loc 1 15 0
+  74              	 .cfi_startproc
+  75              	 
+  76              	 
+  77              	 
+  78 005c 04B02DE5 	 str fp,[sp,#-4]!
+  79              	.LCFI2:
+  80              	 .cfi_def_cfa_offset 4
+  81              	 .cfi_offset 11,-4
+  82 0060 00B08DE2 	 add fp,sp,#0
+  83              	.LCFI3:
+  84              	 .cfi_def_cfa_register 11
+  16:timers.c      **** 	return (volatile)HW_DIGCTL_MICROSECONDS_RD();
+  85              	 .loc 1 16 0
+  86 0064 10309FE5 	 ldr r3,.L7
+  87 0068 003093E5 	 ldr r3,[r3,#0]
+  17:timers.c      **** }
+  88              	 .loc 1 17 0
+  89 006c 0300A0E1 	 mov r0,r3
+  90 0070 00D08BE2 	 add sp,fp,#0
+  91 0074 04B09DE4 	 ldmfd sp!,{fp}
+  92 0078 1EFF2FE1 	 bx lr
+  93              	.L8:
+  94              	 .align 2
+  95              	.L7:
+  96 007c C0C00180 	 .word -2147368768
+  97              	 .cfi_endproc
+  98              	.LFE1:
+ 100              	 .align 2
+ARM GAS   			page 3
+
+
+ 101              	 .global set_micros
+ 103              	set_micros:
+ 104              	.LFB2:
+  18:timers.c      **** 
+  19:timers.c      **** inline void set_micros(long val) {
+ 105              	 .loc 1 19 0
+ 106              	 .cfi_startproc
+ 107              	 
+ 108              	 
+ 109              	 
+ 110 0080 04B02DE5 	 str fp,[sp,#-4]!
+ 111              	.LCFI4:
+ 112              	 .cfi_def_cfa_offset 4
+ 113              	 .cfi_offset 11,-4
+ 114 0084 00B08DE2 	 add fp,sp,#0
+ 115              	.LCFI5:
+ 116              	 .cfi_def_cfa_register 11
+ 117 0088 0CD04DE2 	 sub sp,sp,#12
+ 118 008c 08000BE5 	 str r0,[fp,#-8]
+  20:timers.c      **** 	 HW_DIGCTL_MICROSECONDS_WR(val);
+ 119              	 .loc 1 20 0
+ 120 0090 10309FE5 	 ldr r3,.L10
+ 121 0094 08201BE5 	 ldr r2,[fp,#-8]
+ 122 0098 002083E5 	 str r2,[r3,#0]
+  21:timers.c      **** }
+ 123              	 .loc 1 21 0
+ 124 009c 00D08BE2 	 add sp,fp,#0
+ 125 00a0 04B09DE4 	 ldmfd sp!,{fp}
+ 126 00a4 1EFF2FE1 	 bx lr
+ 127              	.L11:
+ 128              	 .align 2
+ 129              	.L10:
+ 130 00a8 C0C00180 	 .word -2147368768
+ 131              	 .cfi_endproc
+ 132              	.LFE2:
+ 134              	.Letext0:
+ 135              	 .file 2 "./../mach-mx28/includes/registers/regsdigctl.h"
+ 136              	 .file 3 "./../mach-mx28/includes/registers/regs.h"
+ARM GAS   			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 timers.c
+    {standard input}:16     .text:00000000 $a
+    {standard input}:19     .text:00000000 udelay
+    {standard input}:64     .text:00000058 $d
+    {standard input}:68     .text:0000005c $a
+    {standard input}:71     .text:0000005c micros
+    {standard input}:96     .text:0000007c $d
+    {standard input}:100    .text:00000080 $a
+    {standard input}:103    .text:00000080 set_micros
+    {standard input}:130    .text:000000a8 $d
+                     .debug_frame:00000010 $d
+
+NO UNDEFINED SYMBOLS
+arm-none-linux-gnueabi-ld -o capture capture.o duart.o leds.o memory.o timers.o -static -nostdlib -T ./link.lds
+make[1]: Leaving directory `/opt/projects/bootlets/capture'
+Generating Barebox bootstream image
+By using a prebuilt image
+elftosb -z -f imx28 -c  ./barebox_ivt.bd -o cfa10036_ivt_barebox.sb
